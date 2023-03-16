@@ -1,6 +1,6 @@
 package com.saron.spring.test.product;
 
-import com.saron.spring.test.order.BaseEntity;
+import com.saron.spring.test.base.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 

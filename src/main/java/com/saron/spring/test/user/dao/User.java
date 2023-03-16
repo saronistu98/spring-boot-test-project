@@ -1,6 +1,7 @@
 package com.saron.spring.test.user.dao;
 
 import com.saron.spring.test.auth.RegisterRequest;
+import com.saron.spring.test.base.BaseEntity;
 import com.saron.spring.test.user.Role;
 import lombok.Getter;
 import lombok.Setter;

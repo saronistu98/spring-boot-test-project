@@ -1,4 +1,4 @@
-package com.saron.spring.test.user.dao;
+package com.saron.spring.test.base;
 
 import lombok.Getter;
 import lombok.Setter;
