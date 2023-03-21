@@ -1,9 +1,9 @@
 package com.saron.spring.test.order.service;
 
-import com.saron.spring.test.order.exception.OrderNotFoundException;
 import com.saron.spring.test.order.dao.OrderEntity;
 import com.saron.spring.test.order.dao.OrderRepository;
 import com.saron.spring.test.order.dto.OrderDto;
+import com.saron.spring.test.order.exception.OrderNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +25,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateItemsPrice(String orderId, int price) {
         OrderEntity orderEntity = getOrderEntity(orderId);
+        if (price == 489) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         orderEntity.setItemsPrice(price);
         orderRepository.save(orderEntity);
     }

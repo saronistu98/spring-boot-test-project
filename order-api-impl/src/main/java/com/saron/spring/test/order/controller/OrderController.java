@@ -1,29 +1,29 @@
 package com.saron.spring.test.order.controller;
 
+import com.saron.spring.test.order.endpoint.OrderEndpoint;
 import com.saron.spring.test.order.dto.OrderDto;
 import com.saron.spring.test.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/order")
 @RequiredArgsConstructor
-public class OrderController {
+public class OrderController implements OrderEndpoint {
 
     private final OrderService orderService;
 
-    @PostMapping(path = "/create")
-    public String create(@RequestBody OrderDto orderDto) {
+    @Override
+    public String create(OrderDto orderDto) {
         return orderService.create(orderDto);
     }
 
-    @PatchMapping(path = "/update-items-price/{orderId}/{price}")
-    public void updateItemsPrice(@PathVariable String orderId, @PathVariable int price) {
+    @Override
+    public void updateItemsPrice(String orderId, int price) {
         orderService.updateItemsPrice(orderId, price);
     }
 
-    @PatchMapping(path = "/update-delivery-price/{orderId}/{price}")
-    public void updateDeliveryPrice(@PathVariable String orderId, @PathVariable int price) {
+    @Override
+    public void updateDeliveryPrice(String orderId, int price) {
         orderService.updateDeliveryPrice(orderId, price);
     }
 
