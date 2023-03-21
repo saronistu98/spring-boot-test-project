@@ -13,6 +13,7 @@ import static javax.persistence.LockModeType.PESSIMISTIC_WRITE;
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
+    @NonNull
     @Lock(PESSIMISTIC_WRITE)
     Optional<ProductEntity> findById(@NonNull Long id);
 
