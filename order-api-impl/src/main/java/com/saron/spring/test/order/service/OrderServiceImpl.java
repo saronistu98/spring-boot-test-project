@@ -25,13 +25,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateItemsPrice(String orderId, int price) {
         OrderEntity orderEntity = getOrderEntity(orderId);
-        if (price == 489) {
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
         orderEntity.setItemsPrice(price);
         orderRepository.save(orderEntity);
     }
