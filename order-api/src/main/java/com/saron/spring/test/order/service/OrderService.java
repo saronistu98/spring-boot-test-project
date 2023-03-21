@@ -12,4 +12,6 @@ public interface OrderService {
 
     void updateDeliveryPrice(String orderId, int price);
 
+    void delete(String orderId);
+
 }

@@ -16,9 +16,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     @Lock(PESSIMISTIC_WRITE)
     Optional<ProductEntity> findById(@NonNull Long id);
 
-    @Lock(PESSIMISTIC_WRITE)
-    List<ProductEntity> findAllById(Long id);
-
     List<ProductEntity> findAllByName(String name);
+
+    void deleteByEan(String ean);
 
 }

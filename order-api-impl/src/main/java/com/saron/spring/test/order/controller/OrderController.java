@@ -27,4 +27,9 @@ public class OrderController implements OrderEndpoint {
         orderService.updateDeliveryPrice(orderId, price);
     }
 
+    @Override
+    public void delete(String orderId) {
+        orderService.delete(orderId);
+    }
+
 }

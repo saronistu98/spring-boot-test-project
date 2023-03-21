@@ -7,7 +7,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @Setter
@@ -21,6 +28,8 @@ public class OrderEntity extends BaseEntity {
     private int itemsPrice;
     private int deliveryPrice;
     private String orderId;
+    @OneToMany(mappedBy = "order", cascade = ALL, fetch = LAZY, orphanRemoval = true)
+    private List<OrderItemEntity> items = new ArrayList<>();
 
     public static OrderEntity create(String orderId, OrderDto orderDto) {
         OrderEntity entity = new OrderEntity();
@@ -29,6 +38,9 @@ public class OrderEntity extends BaseEntity {
         entity.deliveryPrice = orderDto.getDeliveryPrice();
         entity.itemsPrice = orderDto.getItemsPrice();
         entity.orderId = orderId;
+        entity.items = orderDto.getItems().stream()
+                .map(item -> OrderItemEntity.create(item, entity))
+                .collect(Collectors.toList());
         return entity;
     }
 

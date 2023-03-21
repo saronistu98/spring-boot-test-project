@@ -17,4 +17,6 @@ public interface ProductService {
 
     List<ProductDto> getAll(String name);
 
+    void delete(String ean);
+
 }

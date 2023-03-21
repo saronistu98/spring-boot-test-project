@@ -6,6 +6,7 @@ import com.saron.spring.test.order.dto.OrderDto;
 import com.saron.spring.test.order.exception.OrderNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -34,6 +35,12 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderEntity = getOrderEntity(orderId);
         orderEntity.setDeliveryPrice(price);
         orderRepository.save(orderEntity);
+    }
+
+    @Override
+    @Transactional
+    public void delete(String orderId) {
+        orderRepository.deleteByOrderId(orderId);
     }
 
     private OrderEntity getOrderEntity(String orderId) {

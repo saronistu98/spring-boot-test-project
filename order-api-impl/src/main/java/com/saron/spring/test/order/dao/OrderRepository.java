@@ -10,4 +10,6 @@ public interface OrderRepository extends CrudRepository<OrderEntity, Long> {
 
     Optional<OrderEntity> findByOrderId(String orderId);
 
+    void deleteByOrderId(String orderId);
+
 }

@@ -35,4 +35,9 @@ public class ProductController implements ProductEndpoint {
         return productService.purchase(productId, quantity);
     }
 
+    @Override
+    public void delete(String ean) {
+        productService.delete(ean);
+    }
+
 }
