@@ -1,7 +1,7 @@
 package com.saron.spring.test.user.service;
 
 import com.saron.spring.test.user.dao.UserRepository;
-import com.saron.spring.test.user.dao.User;
+import com.saron.spring.test.user.dao.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -13,12 +13,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public void save(UserEntity userEntity) {
+        userRepository.save(userEntity);
     }
 
     @Override
-    public User findByEmail(String userEmail) {
+    public UserEntity findByEmail(String userEmail) {
         return userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }

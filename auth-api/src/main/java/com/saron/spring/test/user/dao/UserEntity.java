@@ -22,7 +22,7 @@ import static javax.persistence.EnumType.STRING;
 @Setter
 @Entity
 @Table(name = "users")
-public class User extends BaseEntity implements UserDetails {
+public class UserEntity extends BaseEntity implements UserDetails {
 
     private String firstName;
     private String lastName;
@@ -33,14 +33,14 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(STRING)
     private Role role;
 
-    public static User create(RegisterRequest request) {
-        User user = new User();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getUserEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(Role.USER);
-        return user;
+    public static UserEntity create(RegisterRequest request) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setFirstName(request.getFirstName());
+        userEntity.setLastName(request.getLastName());
+        userEntity.setEmail(request.getUserEmail());
+        userEntity.setPassword(request.getPassword());
+        userEntity.setRole(Role.USER);
+        return userEntity;
     }
 
     @Override
@@ -77,8 +77,8 @@ public class User extends BaseEntity implements UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return email.equals(user.email);
+        UserEntity userEntity = (UserEntity) o;
+        return email.equals(userEntity.email);
     }
 
     @Override

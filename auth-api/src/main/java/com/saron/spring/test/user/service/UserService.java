@@ -1,14 +1,14 @@
 package com.saron.spring.test.user.service;
 
-import com.saron.spring.test.user.dao.User;
+import com.saron.spring.test.user.dao.UserEntity;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
 
-    void save(User user);
+    void save(UserEntity userEntity);
 
-    User findByEmail(String userEmail);
+    UserEntity findByEmail(String userEmail);
 
     boolean exists(String userEmail);
 

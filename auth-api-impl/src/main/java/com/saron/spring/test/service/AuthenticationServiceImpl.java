@@ -3,7 +3,7 @@ package com.saron.spring.test.service;
 import com.saron.spring.test.AuthenticationRequest;
 import com.saron.spring.test.AuthenticationResponse;
 import com.saron.spring.test.RegisterRequest;
-import com.saron.spring.test.user.dao.User;
+import com.saron.spring.test.user.dao.UserEntity;
 import com.saron.spring.test.user.exception.UserAlreadyExistsException;
 import com.saron.spring.test.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,9 +27,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new UserAlreadyExistsException();
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         request.setPassword(encodedPassword);
-        User user = User.create(request);
-        userService.save(user);
-        String jwtToken = jwtService.generateToken(user);
+        UserEntity userEntity = UserEntity.create(request);
+        userService.save(userEntity);
+        String jwtToken = jwtService.generateToken(userEntity);
         return new AuthenticationResponse(jwtToken);
     }
 
@@ -37,8 +37,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(request.getUserEmail(), request.getPassword());
         authenticationManager.authenticate(authentication);
-        User user = userService.findByEmail(request.getUserEmail());
-        String jwtToken = jwtService.generateToken(user);
+        UserEntity userEntity = userService.findByEmail(request.getUserEmail());
+        String jwtToken = jwtService.generateToken(userEntity);
         return new AuthenticationResponse(jwtToken);
     }
 
