@@ -11,4 +11,8 @@ public class ProductNotFoundException extends RuntimeException {
         super("Product with ID " + productId + " was not found!");
     }
 
+    public ProductNotFoundException(String ean) {
+        super("Product with ean " + ean + " was not found!");
+    }
+
 }

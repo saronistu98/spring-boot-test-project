@@ -21,4 +21,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     void deleteByEan(String ean);
 
+    Optional<ProductEntity> findByEan(String ean);
+
 }

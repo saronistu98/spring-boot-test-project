@@ -2,6 +2,7 @@ package com.saron.spring.test.order.dao;
 
 import com.saron.spring.test.base.BaseEntity;
 import com.saron.spring.test.order.dto.OrderItemDto;
+import com.saron.spring.test.order.dto.PurchasedProductSubtractDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,6 +31,13 @@ public class OrderItemEntity extends BaseEntity {
         entity.ean = orderItemDto.getEan();
         entity.order = orderEntity;
         return entity;
+    }
+
+    public PurchasedProductSubtractDto toPurchasedProductSubtractDto() {
+        PurchasedProductSubtractDto dto = new PurchasedProductSubtractDto();
+        dto.setEan(ean);
+        dto.setQuantity(quantity);
+        return dto;
     }
 
 }

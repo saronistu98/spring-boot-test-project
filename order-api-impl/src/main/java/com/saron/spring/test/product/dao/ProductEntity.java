@@ -37,4 +37,8 @@ public class ProductEntity extends BaseEntity {
         return dto;
     }
 
+    public void subtractQuantity(int quantity) {
+        this.quantity -= quantity;
+    }
+
 }
