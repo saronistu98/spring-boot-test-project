@@ -13,12 +13,33 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-#    show-sql: true
-#    properties:
-#      hibernate:
-#        format_sql: true
+    #    show-sql: true
+    #    properties:
+    #      hibernate:
+    #        format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  rabbitmq:
+    listener:
+      simple:
+        default-requeue-rejected: false
+        auto-startup: false
 server:
   error:
     include-message: always
+
+rabbit-mq:
+  config:
+    username: "guest"
+    password: "guest"
+    virtualHost: "/"
+    hostname: "localhost"
+    port: 5672
+  listener-containers-delay: 5000
+  order-properties:
+    queue: PurchasedProductQueue
+    dead-letter-queue: PurchasedProductQueueDeadLetter
+    exchange: OrderExchange
+    dead-letter-exchange: OrderExchangeDeadLetter
+    routing-key: order.product.purchase
+    dead-letter-routing-key: order.product.purchase.dl

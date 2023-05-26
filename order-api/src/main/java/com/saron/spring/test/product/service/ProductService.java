@@ -1,5 +1,6 @@
 package com.saron.spring.test.product.service;
 
+import com.saron.spring.test.order.dto.PurchasedProductSubtractDto;
 import com.saron.spring.test.product.dto.ProductDto;
 import com.saron.spring.test.product.dto.ProductUpdateDto;
 import org.springframework.stereotype.Service;
@@ -18,5 +19,7 @@ public interface ProductService {
     List<ProductDto> getAll(String name);
 
     void delete(String ean);
+
+    void subtractPurchasedQuantity(PurchasedProductSubtractDto dto);
 
 }

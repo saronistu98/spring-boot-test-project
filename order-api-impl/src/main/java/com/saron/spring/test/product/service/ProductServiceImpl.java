@@ -1,7 +1,6 @@
 package com.saron.spring.test.product.service;
 
 import com.saron.spring.test.order.dto.PurchasedProductSubtractDto;
-import com.saron.spring.test.order.dto.PurchasedProductSubtractResponseDto;
 import com.saron.spring.test.product.dao.ProductEntity;
 import com.saron.spring.test.product.dao.ProductRepository;
 import com.saron.spring.test.product.dto.ProductDto;
@@ -9,15 +8,12 @@ import com.saron.spring.test.product.dto.ProductUpdateDto;
 import com.saron.spring.test.product.exception.OutOfStockException;
 import com.saron.spring.test.product.exception.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
@@ -64,20 +60,11 @@ public class ProductServiceImpl implements ProductService {
         productRepository.deleteByEan(ean);
     }
 
-    @RabbitListener(queues = "PurchasedProductQueue")
-    public PurchasedProductSubtractResponseDto consumeCarouselItemDetailsRequest(PurchasedProductSubtractDto dto) {
+    @Override
+    public void subtractPurchasedQuantity(PurchasedProductSubtractDto dto) {
         ProductEntity productEntity = getProduct(dto.getEan());
         productEntity.subtractQuantity(dto.getQuantity());
         productRepository.save(productEntity);
-        PurchasedProductSubtractResponseDto responseDto = new PurchasedProductSubtractResponseDto();
-        responseDto.setQuantityLeft(productEntity.getQuantity());
-        responseDto.setName(productEntity.getName());
-        return responseDto;
-    }
-
-    @RabbitListener(queues = "PurchasedProductQueueDeadLetter")
-    public void consumeRejectedCarouselItemDetailsRequest(PurchasedProductSubtractDto dto) {
-        log.warn("An error occurred: {}", dto);
     }
 
     private ProductEntity getProduct(String ean) {

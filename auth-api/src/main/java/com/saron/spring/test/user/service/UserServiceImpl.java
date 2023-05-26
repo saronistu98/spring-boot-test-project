@@ -1,10 +1,12 @@
 package com.saron.spring.test.user.service;
 
-import com.saron.spring.test.user.dao.UserRepository;
 import com.saron.spring.test.user.dao.UserEntity;
+import com.saron.spring.test.user.dao.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
