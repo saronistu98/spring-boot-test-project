@@ -11,6 +11,9 @@ public interface OrderEndpoint {
     @PostMapping(path = "/create")
     String create(@RequestBody @Valid OrderDto orderDto);
 
+    @GetMapping(path = "/list")
+    void findAll();
+
     @PatchMapping(path = "/update-items-price/{orderId}/{price}")
     void updateItemsPrice(@PathVariable String orderId, @PathVariable int price);
 

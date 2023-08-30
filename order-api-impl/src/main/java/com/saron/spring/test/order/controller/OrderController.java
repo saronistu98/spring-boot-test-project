@@ -18,6 +18,11 @@ public class OrderController implements OrderEndpoint {
     }
 
     @Override
+    public void findAll() {
+        orderService.findAll();
+    }
+
+    @Override
     public void updateItemsPrice(String orderId, int price) {
         orderService.updateItemsPrice(orderId, price);
     }

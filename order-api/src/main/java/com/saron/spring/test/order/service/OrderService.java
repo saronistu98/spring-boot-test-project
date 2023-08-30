@@ -8,6 +8,8 @@ public interface OrderService {
 
     String create(OrderDto orderDto);
 
+    void findAll();
+
     void updateItemsPrice(String orderId, int price);
 
     void updateDeliveryPrice(String orderId, int price);

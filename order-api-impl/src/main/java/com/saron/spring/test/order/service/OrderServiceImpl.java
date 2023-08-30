@@ -6,9 +6,12 @@ import com.saron.spring.test.order.dao.OrderItemEntity;
 import com.saron.spring.test.order.dao.OrderRepository;
 import com.saron.spring.test.order.dto.OrderDto;
 import com.saron.spring.test.order.exception.OrderNotFoundException;
+import com.saron.spring.test.order.specification.OrderSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -27,6 +30,13 @@ public class OrderServiceImpl implements OrderService {
                 .forEach(rabbitMQOrderProducer::send);
         orderRepository.save(orderEntity);
         return orderEntity.getOrderId();
+    }
+
+    @Override
+    public void findAll() {
+        OrderSpecification specification = new OrderSpecification();
+        List<OrderEntity> all = orderRepository.findAll(specification);
+        System.out.println();
     }
 
     @Override

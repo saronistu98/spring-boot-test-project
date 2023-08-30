@@ -3,13 +3,17 @@ package com.saron.spring.test.order.dao;
 import com.saron.spring.test.base.BaseEntity;
 import com.saron.spring.test.order.dto.OrderItemDto;
 import com.saron.spring.test.order.dto.PurchasedProductSubtractDto;
+import com.saron.spring.test.order.enums.ItemType;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import static com.saron.spring.test.order.enums.ItemType.PRODUCT;
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 
 @Getter
@@ -23,6 +27,8 @@ public class OrderItemEntity extends BaseEntity {
     private int quantity;
     private int price;
     private String ean;
+    @Enumerated(STRING)
+    private ItemType type = PRODUCT;
 
     public static OrderItemEntity create(OrderItemDto orderItemDto, OrderEntity orderEntity) {
         OrderItemEntity entity = new OrderItemEntity();
