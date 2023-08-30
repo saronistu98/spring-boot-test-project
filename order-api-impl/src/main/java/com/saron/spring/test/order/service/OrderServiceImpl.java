@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -35,8 +33,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void findAll() {
         OrderSpecification specification = new OrderSpecification();
-        List<OrderEntity> all = orderRepository.findAll(specification);
-        System.out.println();
+        orderRepository.findAll(specification);
     }
 
     @Override
