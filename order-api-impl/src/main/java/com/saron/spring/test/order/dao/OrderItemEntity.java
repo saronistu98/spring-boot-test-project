@@ -1,9 +1,9 @@
 package com.saron.spring.test.order.dao;
 
 import com.saron.spring.test.base.BaseEntity;
-import com.saron.spring.test.order.dto.OrderItemDto;
 import com.saron.spring.test.order.dto.PurchasedProductSubtractDto;
 import com.saron.spring.test.order.enums.ItemType;
+import com.saron.spring.test.order.pojo.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,11 +30,11 @@ public class OrderItemEntity extends BaseEntity {
     @Enumerated(STRING)
     private ItemType type = PRODUCT;
 
-    public static OrderItemEntity create(OrderItemDto orderItemDto, OrderEntity orderEntity) {
+    public static OrderItemEntity create(OrderItem orderItem, OrderEntity orderEntity) {
         OrderItemEntity entity = new OrderItemEntity();
-        entity.price = orderItemDto.getPrice();
-        entity.quantity = orderItemDto.getQuantity();
-        entity.ean = orderItemDto.getEan();
+        entity.price = orderItem.getPrice();
+        entity.quantity = orderItem.getQuantity();
+        entity.ean = orderItem.getEan();
         entity.order = orderEntity;
         return entity;
     }

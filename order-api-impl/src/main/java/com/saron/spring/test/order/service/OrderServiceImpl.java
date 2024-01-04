@@ -1,11 +1,13 @@
 package com.saron.spring.test.order.service;
 
+import com.saron.spring.test.mapper.OrderMapper;
 import com.saron.spring.test.messaging.RabbitMQOrderProducer;
 import com.saron.spring.test.order.dao.OrderEntity;
 import com.saron.spring.test.order.dao.OrderItemEntity;
 import com.saron.spring.test.order.dao.OrderRepository;
 import com.saron.spring.test.order.dto.OrderDto;
 import com.saron.spring.test.order.exception.OrderNotFoundException;
+import com.saron.spring.test.order.pojo.Order;
 import com.saron.spring.test.order.specification.OrderSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,19 +17,24 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
+    private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
     private final RabbitMQOrderProducer rabbitMQOrderProducer;
+    private final OrderSerializationService orderSerializationService;
 
     @Override
     public String create(OrderDto orderDto) {
         long numberOfOrders = orderRepository.count();
-        String orderId = OrderIdEncoder.encode(numberOfOrders);
-        OrderEntity orderEntity = OrderEntity.create(orderId, orderDto);
+        String orderExternalId = OrderIdEncoder.encode(numberOfOrders);
+        Order order = orderMapper.dtoToPojo(orderDto);
+        order.setExternalId(orderExternalId);
+        OrderEntity orderEntity = OrderEntity.create(order);
         orderEntity.getItems().stream()
                 .map(OrderItemEntity::toPurchasedProductSubtractDto)
                 .forEach(rabbitMQOrderProducer::send);
         orderRepository.save(orderEntity);
-        return orderEntity.getOrderId();
+        orderSerializationService.save(order);
+        return orderEntity.getExternalId();
     }
 
     @Override
@@ -37,28 +44,28 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateItemsPrice(String orderId, int price) {
-        OrderEntity orderEntity = getOrderEntity(orderId);
+    public void updateItemsPrice(String externalId, int price) {
+        OrderEntity orderEntity = getOrderEntity(externalId);
         orderEntity.setItemsPrice(price);
         orderRepository.save(orderEntity);
     }
 
     @Override
-    public void updateDeliveryPrice(String orderId, int price) {
-        OrderEntity orderEntity = getOrderEntity(orderId);
+    public void updateDeliveryPrice(String externalId, int price) {
+        OrderEntity orderEntity = getOrderEntity(externalId);
         orderEntity.setDeliveryPrice(price);
         orderRepository.save(orderEntity);
     }
 
     @Override
     @Transactional
-    public void delete(String orderId) {
-        orderRepository.deleteByOrderId(orderId);
+    public void delete(String externalId) {
+        orderRepository.deleteByExternalId(externalId);
     }
 
-    private OrderEntity getOrderEntity(String orderId) {
-        return orderRepository.findByOrderId(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(orderId));
+    private OrderEntity getOrderEntity(String externalId) {
+        return orderRepository.findByExternalId(externalId)
+                .orElseThrow(() -> new OrderNotFoundException(externalId));
     }
 
 }

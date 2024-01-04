@@ -8,10 +8,10 @@ public interface OrderService {
 
     void findAll();
 
-    void updateItemsPrice(String orderId, int price);
+    void updateItemsPrice(String externalId, int price);
 
-    void updateDeliveryPrice(String orderId, int price);
+    void updateDeliveryPrice(String externalId, int price);
 
-    void delete(String orderId);
+    void delete(String externalId);
 
 }
