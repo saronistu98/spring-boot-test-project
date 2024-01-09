@@ -13,6 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+
 @Component
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -61,6 +65,16 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void delete(String externalId) {
         orderRepository.deleteByExternalId(externalId);
+    }
+
+    @Override
+    public CompletableFuture<Map<String, String>> getMap() {
+        return CompletableFuture.completedFuture(Map.of("key", "value"));
+    }
+
+    @Override
+    public CompletableFuture<List<String>> getList() {
+        return CompletableFuture.completedFuture(List.of("key"));
     }
 
     private OrderEntity getOrderEntity(String externalId) {
