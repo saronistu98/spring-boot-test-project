@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -18,7 +17,6 @@ public class OrderAsyncServiceImpl implements OrderAsyncService {
     private final OrderService orderService;
 
     @Override
-    @PostConstruct
     public void perform() {
         CompletableFuture<Map<String, String>> mapCompletableFuture = orderService.getMap();
         CompletableFuture<List<String>> listCompletableFuture = orderService.getList();
