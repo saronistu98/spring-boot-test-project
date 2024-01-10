@@ -8,10 +8,10 @@ import org.mapstruct.Mapper;
 import static org.mapstruct.ReportingPolicy.ERROR;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ERROR)
-public abstract class OrderItemMapper {
+public interface OrderItemMapper {
 
-    public abstract OrderItem dtoToPojo(OrderItemDto orderItemDto);
+    OrderItem dtoToPojo(OrderItemDto orderItemDto);
 
-    public abstract OrderItemDto toOrderItemDto(OrderItemEntity orderItemEntity);
+    OrderItemDto toOrderItemDto(OrderItemEntity orderItemEntity);
 
 }

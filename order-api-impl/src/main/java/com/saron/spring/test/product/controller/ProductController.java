@@ -1,5 +1,6 @@
 package com.saron.spring.test.product.controller;
 
+import com.saron.spring.test.product.dto.CachedProductDto;
 import com.saron.spring.test.product.dto.ProductDto;
 import com.saron.spring.test.product.dto.ProductUpdateDto;
 import com.saron.spring.test.product.endpoint.ProductEndpoint;
@@ -14,6 +15,11 @@ import java.util.List;
 public class ProductController implements ProductEndpoint {
 
     private final ProductService productService;
+
+    @Override
+    public CachedProductDto get(String name, String ean) {
+        return productService.get(name, ean);
+    }
 
     @Override
     public List<ProductDto> getAll(String name) {

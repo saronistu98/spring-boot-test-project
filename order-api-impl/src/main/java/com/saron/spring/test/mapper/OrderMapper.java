@@ -10,11 +10,11 @@ import org.mapstruct.Mapping;
 import static org.mapstruct.ReportingPolicy.ERROR;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ERROR, uses = OrderItemMapper.class)
-public abstract class OrderMapper {
+public interface OrderMapper {
 
     @Mapping(target = "externalId", ignore = true)
-    public abstract Order dtoToPojo(OrderDto orderDto);
+    Order dtoToPojo(OrderDto orderDto);
 
-    public abstract PlacedOrderDto toPlacedOrderDto(OrderEntity orderEntity);
+    PlacedOrderDto toPlacedOrderDto(OrderEntity orderEntity);
 
 }
