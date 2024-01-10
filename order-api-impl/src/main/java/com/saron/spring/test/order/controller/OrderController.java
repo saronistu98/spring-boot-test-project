@@ -1,12 +1,15 @@
 package com.saron.spring.test.order.controller;
 
 import com.saron.spring.test.order.dto.OrderDto;
+import com.saron.spring.test.order.dto.PlacedOrderDto;
 import com.saron.spring.test.order.endpoint.OrderEndpoint;
 import com.saron.spring.test.order.pojo.Order;
 import com.saron.spring.test.order.service.OrderSerializationService;
 import com.saron.spring.test.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +24,8 @@ public class OrderController implements OrderEndpoint {
     }
 
     @Override
-    public void findAll() {
-        orderService.findAll();
+    public List<PlacedOrderDto> findAll() {
+        return orderService.findAll();
     }
 
     @Override

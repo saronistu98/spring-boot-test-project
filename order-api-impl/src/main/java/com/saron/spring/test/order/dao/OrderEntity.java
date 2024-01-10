@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.saron.spring.test.order.enums.OrderStatus.NEW;
 import static javax.persistence.CascadeType.ALL;
@@ -46,7 +45,7 @@ public class OrderEntity extends BaseEntity {
         entity.externalId = order.getExternalId();
         entity.items = order.getItems().stream()
                 .map(item -> OrderItemEntity.create(item, entity))
-                .collect(Collectors.toList());
+                .toList();
         return entity;
     }
 

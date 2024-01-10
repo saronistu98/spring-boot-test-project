@@ -1,6 +1,7 @@
 package com.saron.spring.test.order.service;
 
 import com.saron.spring.test.order.dto.OrderDto;
+import com.saron.spring.test.order.dto.PlacedOrderDto;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface OrderService {
 
     String create(OrderDto orderDto);
 
-    void findAll();
+    List<PlacedOrderDto> findAll();
 
     void updateItemsPrice(String externalId, int price);
 

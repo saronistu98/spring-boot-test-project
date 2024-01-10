@@ -6,6 +6,7 @@ import com.saron.spring.test.order.dao.OrderEntity;
 import com.saron.spring.test.order.dao.OrderItemEntity;
 import com.saron.spring.test.order.dao.OrderRepository;
 import com.saron.spring.test.order.dto.OrderDto;
+import com.saron.spring.test.order.dto.PlacedOrderDto;
 import com.saron.spring.test.order.exception.OrderNotFoundException;
 import com.saron.spring.test.order.pojo.Order;
 import com.saron.spring.test.order.specification.OrderSpecification;
@@ -42,9 +43,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void findAll() {
+    public List<PlacedOrderDto> findAll() {
         OrderSpecification specification = new OrderSpecification();
-        orderRepository.findAll(specification);
+        return orderRepository.findAll(specification).stream()
+                .map(orderMapper::toPlacedOrderDto)
+                .toList();
     }
 
     @Override

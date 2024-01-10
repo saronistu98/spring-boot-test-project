@@ -1,10 +1,12 @@
 package com.saron.spring.test.order.endpoint;
 
 import com.saron.spring.test.order.dto.OrderDto;
+import com.saron.spring.test.order.dto.PlacedOrderDto;
 import com.saron.spring.test.order.pojo.Order;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequestMapping("/api/order")
 public interface OrderEndpoint {
@@ -13,7 +15,7 @@ public interface OrderEndpoint {
     String create(@RequestBody @Valid OrderDto orderDto);
 
     @GetMapping(path = "/list")
-    void findAll();
+    List<PlacedOrderDto> findAll();
 
     @PatchMapping(path = "/update-items-price/{externalId}/{price}")
     void updateItemsPrice(@PathVariable String externalId, @PathVariable int price);
