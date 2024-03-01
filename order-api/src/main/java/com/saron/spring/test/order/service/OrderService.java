@@ -1,7 +1,10 @@
 package com.saron.spring.test.order.service;
 
 import com.saron.spring.test.order.dto.OrderDto;
+import com.saron.spring.test.order.dto.OrderSearchSort;
 import com.saron.spring.test.order.dto.PlacedOrderDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
@@ -12,7 +15,7 @@ public interface OrderService {
 
     String create(OrderDto orderDto);
 
-    List<PlacedOrderDto> findAll();
+    Page<PlacedOrderDto> findAll(OrderSearchSort sort, Pageable pageable);
 
     void updateItemsPrice(String externalId, int price);
 

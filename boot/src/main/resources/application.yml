@@ -8,15 +8,15 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/test_database
     username: postgres
-    password: DrCarmen1!
+    password: DrCarmen132!
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
-    #    show-sql: true
-    #    properties:
-    #      hibernate:
-    #        format_sql: true
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   rabbitmq:
@@ -27,6 +27,7 @@ spring:
 server:
   error:
     include-message: always
+  port: 8088
 
 rabbit-mq:
   config:

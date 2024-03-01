@@ -6,11 +6,14 @@ import com.saron.spring.test.order.dao.OrderEntity;
 import com.saron.spring.test.order.dao.OrderItemEntity;
 import com.saron.spring.test.order.dao.OrderRepository;
 import com.saron.spring.test.order.dto.OrderDto;
+import com.saron.spring.test.order.dto.OrderSearchSort;
 import com.saron.spring.test.order.dto.PlacedOrderDto;
 import com.saron.spring.test.order.exception.OrderNotFoundException;
 import com.saron.spring.test.order.pojo.Order;
 import com.saron.spring.test.order.specification.OrderSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,11 +46,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<PlacedOrderDto> findAll() {
-        OrderSpecification specification = new OrderSpecification();
-        return orderRepository.findAll(specification).stream()
-                .map(orderMapper::toPlacedOrderDto)
-                .toList();
+    public Page<PlacedOrderDto> findAll(OrderSearchSort sort, Pageable pageable) {
+        OrderSpecification specification = new OrderSpecification(sort);
+        return orderRepository.findAll(specification, pageable)
+                .map(orderMapper::toPlacedOrderDto);
     }
 
     @Override

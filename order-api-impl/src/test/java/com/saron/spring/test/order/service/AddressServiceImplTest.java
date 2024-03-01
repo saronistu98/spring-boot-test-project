@@ -10,9 +10,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.scheduling.support.CronExpression;
-
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -39,12 +36,6 @@ public class AddressServiceImplTest {
         assertEquals(orderDto.getCounty(), capture.getCounty());
         assertEquals(orderDto.getItemsPrice(), capture.getItemsPrice());
         assertEquals(orderDto.getDeliveryPrice(), capture.getDeliveryPrice());
-    }
-
-    @Test
-    public void myTest() {
-        CronExpression cronExpression = CronExpression.parse("0 15 2 * * ?");
-        System.out.println(cronExpression.next(LocalDateTime.now()));
     }
 
     private OrderDto getOrderDto() {
