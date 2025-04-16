@@ -8,10 +8,14 @@ import com.saron.spring.test.order.pojo.Order;
 import com.saron.spring.test.order.service.OrderSerializationService;
 import com.saron.spring.test.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class OrderController implements OrderEndpoint {
@@ -32,6 +36,7 @@ public class OrderController implements OrderEndpoint {
     @Override
     public void updateItemsPrice(String externalId, int price) {
         orderService.updateItemsPrice(externalId, price);
+        log.info("Closed the update items price transaction at {}", LocalDateTime.now());
     }
 
     @Override

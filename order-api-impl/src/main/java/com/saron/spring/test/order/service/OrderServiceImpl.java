@@ -12,15 +12,23 @@ import com.saron.spring.test.order.exception.OrderNotFoundException;
 import com.saron.spring.test.order.pojo.Order;
 import com.saron.spring.test.order.specification.OrderSpecification;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.retry.support.RetrySynchronizationManager;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -53,10 +61,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Retryable(value = ObjectOptimisticLockingFailureException.class, maxAttempts = 4, backoff = @Backoff(delay = 1000, multiplier = 2))
     public void updateItemsPrice(String externalId, int price) {
+        int retryCount = RetrySynchronizationManager.getContext().getRetryCount();
+        if (retryCount != 0)
+            log.info("updateItemsPrice() method retry count: {}", retryCount);
+        log.info("Fetching order entity at {}", LocalDateTime.now());
         OrderEntity orderEntity = getOrderEntity(externalId);
+        log.info("Fetched order entity at {}", LocalDateTime.now());
         orderEntity.setItemsPrice(price);
+        log.info("Saving order entity at {}", LocalDateTime.now());
         orderRepository.save(orderEntity);
+        log.info("Saved order entity at {}", LocalDateTime.now());
+    }
+
+    @Recover
+    @SuppressWarnings("unused")
+    public void recover(ObjectOptimisticLockingFailureException ex, String externalId, int price) {
+        log.warn("Optimistic lock retry failed after multiple attempts or updating items price for order with external ID: {}", externalId);
     }
 
     @Override
